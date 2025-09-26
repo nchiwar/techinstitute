@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechBit Institute</title>
+  <!-- CDNs with i18next and react-query without defer -->
+  <script src="https://cdn.jsdelivr.net/npm/i18next@23.16.3/dist/umd/i18next.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tanstack/react-query@5.59.16/dist/react-query.production.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/react-router-dom@6.27.0/dist/umd/react-router-dom.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@stripe/stripe-js@4.7.0/dist/stripe.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/framer-motion@12.0.0/dist/framer-motion.js"></script>
+  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Mock Google Analytics -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <!-- Simplified fallback -->
+  <script>
+    window.onerror = function(msg, url, lineNo, columnNo, error) {
+      console.error('Script Error Details:', { msg, url, lineNo, columnNo, error });
+      return false;
+    };
+    window.React = window.React || {};
+    window.ReactDOM = window.ReactDOM || {};
+    window.ReactRouterDOM = window.ReactRouterDOM || {};
+    window.framerMotion = window.framerMotion || {};
+    window.L = window.L || {};
+    // Initialize i18next fallback only if undefined
+    if (!window.i18next) {
+      window.i18next = { t: function(key) { return key; }, changeLanguage: function() {} };
+    }
+    // Initialize ReactQuery fallback only if undefined
+    if (!window.ReactQuery) {
+      window.ReactQuery = {
+        QueryClient: function() {
+          this.queryCache = {};
+          this.query = function() {};
+        },
+        useQuery: function(queryKey, queryFn) {
+          return { data: queryFn(), error: null };
+        }
+      };
+    }
+  </script>
+</head>
+<body style="background-color: #FFFFF0;">
+  <div id="root"></div>
+  <script src="app.js"></script>
+</body>
+</html>

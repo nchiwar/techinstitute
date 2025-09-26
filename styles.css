@@ -1,0 +1,220 @@
+/* Custom CSS for TechBit Institute */
+:root {
+  --indigo: #4B0082;
+  --coral: #FF7F50;
+  --ivory: #FFFFF0;
+  --slate: #708090;
+  --white: #FFFFFF;
+  --dark-indigo: #2F004F;
+  --light-coral: #FFAD94;
+  --light-ivory: #F5F5E8;
+}
+
+.theme-light {
+  --bg-color: #FFFFF0;
+  --text-color: #708090;
+  --accent-color: #4B0082;
+  --card-bg: #FFFFFF;
+}
+
+.theme-dark {
+  --bg-color: #2F004F;
+  --text-color: #F5F5E8;
+  --accent-color: #FFFFFF;
+  --card-bg: #3C0A6B;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Montserrat Alternates', sans-serif;
+  background-color: var(--bg-color) !important;
+  color: var(--text-color) !important;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle cx="10" cy="10" r="2" fill="%234B0082" fill-opacity="0.05"/></svg>');
+  background-size: 20px 20px;
+}
+
+.theme-dark body {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle cx="10" cy="10" r="2" fill="%23FFAD94" fill-opacity="0.05"/></svg>');
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Montserrat Alternates', sans-serif;
+  font-weight: 700;
+  color: var(--accent-color) !important;
+}
+
+.nav-link {
+  font-family: 'Montserrat Alternates', sans-serif;
+  font-weight: 400;
+  color: #FFFFFF !important;
+}
+
+/* Header */
+.header {
+  background: #4B0082 !important;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.container {
+  max-width: 1200px !important;
+}
+
+.nav {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.nav-link {
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #FFAD94 !important;
+}
+
+.theme-select, .language-select {
+  font-size: 0.9rem;
+  background-color: #4B0082 !important;
+  color: #FFFFFF !important;
+  z-index: 60;
+}
+
+/* Sections */
+.section {
+  padding: 2rem 0;
+}
+
+/* Buttons */
+.button {
+  background: linear-gradient(to right, #4B0082, #FF7F50);
+  color: #FFFFFF !important;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: transform 0.2s ease;
+}
+
+.button:hover {
+  transform: scale(1.1);
+}
+
+/* Cards */
+.card {
+  background-color: var(--card-bg) !important;
+  border: 1px solid #4B0082;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.theme-dark .card {
+  border: 1px solid #FFAD94;
+}
+
+.card:hover {
+  transform: scale(1.1);
+}
+
+/* Forms */
+.input {
+  width: 100%;
+  margin: 0.5rem 0;
+  padding: 0.75rem;
+  border: 1px solid #4B0082;
+  border-radius: 8px;
+  font-family: 'Montserrat Alternates', sans-serif;
+  background-color: #FFFFFF !important;
+  color: #708090 !important;
+}
+
+.theme-dark .input {
+  background-color: #3C0A6B !important;
+  color: #F5F5E8 !important;
+  border: 1px solid #FFAD94;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #FF7F50;
+  box-shadow: 0 0 4px rgba(255, 127, 80, 0.3);
+}
+
+.textarea {
+  height: 120px;
+  resize: vertical;
+}
+
+.form-success {
+  font-weight: 700;
+  color: #FF7F50 !important;
+  animation: fadeOut 3s ease forwards;
+}
+
+/* Progress Bar */
+.progress-bar {
+  width: 100%;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  height: 8px;
+  margin-top: 8px;
+}
+
+.progress-bar-fill {
+  background-color: #FF7F50;
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.card, .section {
+  animation: fadeIn 0.5s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .nav {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: #4B0082 !important;
+    padding: 1rem;
+  }
+
+  .nav.open {
+    display: flex;
+  }
+
+  .hamburger {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #FFFFFF;
+  }
+
+  .theme-select, .language-select {
+    width: 100%;
+  }
+}
