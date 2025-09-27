@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tech Institute - Testimonials</title>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.22.9/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/i18next@23.11.5/dist/umd/i18next.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-i18next@14.1.2/dist/umd/react-i18next.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect } = React;
+const { useTranslation, initReactI18next } = window.ReactI18next;
+
+// i18next Initialization
+i18next.use(initReactI18next).init({
+  resources: {
+    en: { translation: { "testimonials": "Testimonials", "image_unavailable": "Image Unavailable" }},
+    es: { translation: { "testimonials": "Testimonios", "image_unavailable": "Imagen No Disponible" }},
+    fr: { translation: { "testimonials": "Témoignages", "image_unavailable": "Image Indisponible" }}
+  },
+  lng: "en",
+  fallbackLng: "en",
+  interpolation: { escapeValue: false }
+});
+
+// Error Boundary
+const ErrorBoundary = ({ children }) => {
+  const [hasError, setHasError] = useState(false);
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    const errorHandler = (error) => {
+      console.error('ErrorBoundary caught:', error);
+      setHasError(true);
+    };
+    window.addEventListener('error', errorHandler);
+    return () => window.removeEventListener('error', errorHandler);
+  }, []);
+
+  if (hasError) {
+    return <div className="text-center p-6 text-red-600">{t('image_unavailable')}</div>;
+  }
+  return children;
+};
+
+// Header Component
+const Header = ({ toggleTheme }) => {
+  const { t, i18n } = useTranslation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const changeLanguage = (lng) => i18n.changeLanguage(lng);
+
+  return (
+    <header className="header sticky top-0 w-full bg-indigo z-50">
+      <div className="container mx-auto px-6 flex justify-between items-center py-3">
+        <h1 className="text-2xl font-bold text-white">Tech Institute</h1>
+        <nav className={`nav ${isMenuOpen ? 'open' : ''} flex gap-2 items-center`}>
+          <a href="index.html" className="nav-link">Home</a>
+          <a href="courses.html" className="nav-link">Courses</a>
+          <a href="enrollment.html" className="nav-link">Enrollment</a>
+          <a href="testimonials.html" className="nav-link">Testimonials</a>
+          <a href="vision.html" className="nav-link">Vision</a>
+          <a href="contact.html" className="nav-link">Contact</a>
+          <a href="about.html" className="nav-link">About</a>
+        </nav>
+        <div className="flex items-center gap-3">
+          <select className="theme-select bg-indigo text-white rounded px-2 py-1" onChange={(e) => toggleTheme(e.target.value)} defaultValue="light" aria-label="Theme">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+          <select className="language-select bg-indigo text-white rounded px-2 py-1" onChange={(e) => changeLanguage(e.target.value)} defaultValue="en" aria-label="Language">
+            <option value="en">English</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+          </select>
+        </div>
+        <button className="hamburger md:hidden ml-3" onClick={toggleMenu} aria-label="Toggle menu">
+          <i className={isMenuOpen ? "fas fa-times text-white" : "fas fa-bars text-white"}></i>
+        </button>
+      </div>
+    </header>
+  );
+};
+
+// Footer Component
+const Footer = () => {
+  return (
+    <footer className="footer bg-indigo text-white z-50">
+      <div className="container mx-auto px-6 py-2 text-center">
+        <h3 className="text-2xl font-bold">Tech Institute</h3>
+        <p className="text-sm mt-2">Tech Institute &copy; 2025</p>
+        <div className="flex justify-center gap-4 mt-2">
+          <a href="https://twitter.com" target="_blank" className="text-white hover:text-coral"><i className="fab fa-twitter"></i></a>
+          <a href="https://linkedin.com" target="_blank" className="text-white hover:text-coral"><i className="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+// Testimonials Component
+const Testimonials = () => {
+  const { t } = useTranslation();
+  const testimonials = [
+    { id: 1, name: "Jane Doe", quote: "Transformed my career with practical skills!", image: "https://via.placeholder.com/100" },
+    { id: 2, name: "John Smith", quote: "Instructors were supportive and knowledgeable.", image: "https://via.placeholder.com/100" },
+    { id: 3, name: "Alice Brown", quote: "The best investment in my tech journey.", image: "https://via.placeholder.com/100" },
+    { id: 4, name: "Bob Johnson", quote: "Hands-on projects made learning fun!", image: "https://via.placeholder.com/100" },
+    { id: 5, name: "Emma Wilson", quote: "Landed a job right after the course!", image: "https://via.placeholder.com/100" },
+    { id: 6, name: "Michael Lee", quote: "Flexible schedule and great content.", image: "https://via.placeholder.com/100" },
+    { id: 7, name: "Sarah Davis", quote: "Learned cutting-edge tech skills.", image: "https://via.placeholder.com/100" },
+    { id: 8, name: "David Clark", quote: "Community support was fantastic.", image: "https://via.placeholder.com/100" }
+  ];
+
+  return (
+    <main className="pt-20">
+      <section className="section bg-ivory">
+        <div className="container mx-auto px-6">
+          <h2 className="text-2xl font-bold text-indigo mb-4 text-center">{t('testimonials')}</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {testimonials.map(testimonial => (
+              <div key={testimonial.id} className="card bg-white p-4 rounded-lg border border-indigo shadow-md animate-fade-in">
+                <img
+                  src={testimonial.image}
+                  alt={testimonial.name}
+                  className="w-16 h-16 rounded-full mx-auto mb-2"
+                  onError={(e) => (e.target.outerHTML = '<p className="text-center text-slate">' + t('image_unavailable') + '</p>')}
+                />
+                <p className="text-slate text-center">{testimonial.quote}</p>
+                <p className="text-indigo font-bold text-center mt-2">{testimonial.name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+};
+
+// Main App Component
+const App = () => {
+  const [theme, setTheme] = useState('light');
+
+  const toggleTheme = (newTheme) => {
+    setTheme(newTheme);
+    document.documentElement.classList.remove('theme-light', 'theme-dark');
+    document.documentElement.classList.add(`theme-${newTheme}`);
+  };
+
+  return (
+    <ErrorBoundary>
+      <div className={`theme-${theme}`}>
+        <Header toggleTheme={toggleTheme} />
+        <Testimonials />
+        <Footer />
+      </div>
+    </ErrorBoundary>
+  );
+};
+
+// Render the App
+ReactDOM.render(<App />, document.getElementById('root'));
+</script>
+</body>
+</html>

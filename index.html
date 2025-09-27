@@ -3,59 +3,243 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TechBit Institute</title>
-  <!-- CDNs with i18next and react-query without defer -->
-  <script src="https://cdn.jsdelivr.net/npm/i18next@23.16.3/dist/umd/i18next.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@tanstack/react-query@5.59.16/dist/react-query.production.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/react-router-dom@6.27.0/dist/umd/react-router-dom.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/@stripe/stripe-js@4.7.0/dist/stripe.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/framer-motion@12.0.0/dist/framer-motion.js"></script>
-  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <title>Tech Institute - Home</title>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.22.9/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/i18next@23.11.5/dist/umd/i18next.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-i18next@14.1.2/dist/umd/react-i18next.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;700&display=swap">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="styles.css">
-  <!-- Mock Google Analytics -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-XXXXXXXXXX');
   </script>
-  <!-- Simplified fallback -->
-  <script>
-    window.onerror = function(msg, url, lineNo, columnNo, error) {
-      console.error('Script Error Details:', { msg, url, lineNo, columnNo, error });
-      return false;
-    };
-    window.React = window.React || {};
-    window.ReactDOM = window.ReactDOM || {};
-    window.ReactRouterDOM = window.ReactRouterDOM || {};
-    window.framerMotion = window.framerMotion || {};
-    window.L = window.L || {};
-    // Initialize i18next fallback only if undefined
-    if (!window.i18next) {
-      window.i18next = { t: function(key) { return key; }, changeLanguage: function() {} };
-    }
-    // Initialize ReactQuery fallback only if undefined
-    if (!window.ReactQuery) {
-      window.ReactQuery = {
-        QueryClient: function() {
-          this.queryCache = {};
-          this.query = function() {};
-        },
-        useQuery: function(queryKey, queryFn) {
-          return { data: queryFn(), error: null };
-        }
-      };
-    }
-  </script>
 </head>
-<body style="background-color: #FFFFF0;">
+<body>
   <div id="root"></div>
-  <script src="app.js"></script>
+<script type="text/babel">
+const { useState, useEffect } = React;
+const { useTranslation, initReactI18next } = window.ReactI18next;
+
+// i18next Initialization
+i18next.use(initReactI18next).init({
+  resources: {
+    en: { translation: {
+      "welcome": "Welcome to Tech Institute",
+      "welcome_text": "At Tech Institute, we empower the next generation of innovators, coders, and tech leaders. Our cutting-edge programs in programming, data science, cybersecurity, AI, and cloud computing are designed to transform your career. With hands-on learning, expert instructors, and a global community, we provide the tools and knowledge to thrive in the fast-evolving tech industry. Join us to unlock your potential and shape the future of technology.",
+      "vision": "Our Vision",
+      "vision_text": "To be the global leader in transformative tech education, fostering innovation and empowering individuals to solve the world’s most pressing challenges through technology. We envision a future where every learner, regardless of background, has access to world-class education and the opportunity to drive technological breakthroughs that shape a better tomorrow.",
+      "mission": "Our Mission",
+      "mission_text": "Tech Institute is committed to delivering accessible, high-quality education that equips learners with practical, in-demand skills. We bridge the gap between theory and practice through immersive courses, real-world projects, and mentorship from industry experts. Our mission is to democratize tech education, ensuring that everyone has the opportunity to succeed in the digital age.",
+      "featured_courses": "Featured Courses",
+      "testimonials": "What Our Students Say",
+      "enroll_now": "Enroll Now",
+      "image_unavailable": "Image Unavailable"
+    }},
+    es: { translation: {
+      "welcome": "Bienvenido al Instituto Tecnológico",
+      "welcome_text": "En el Instituto Tecnológico, empoderamos a la próxima generación de innovadores, programadores y líderes tecnológicos. Nuestros programas de vanguardia en programación, ciencia de datos, ciberseguridad, inteligencia artificial y computación en la nube están diseñados para transformar tu carrera. Con aprendizaje práctico, instructores expertos y una comunidad global, proporcionamos las herramientas y el conocimiento para prosperar en la industria tecnológica en rápida evolución. Únete a nosotros para desbloquear tu potencial y dar forma al futuro de la tecnología.",
+      "vision": "Nuestra Visión",
+      "vision_text": "Ser el líder global en educación tecnológica transformadora, fomentando la innovación y empoderando a las personas para resolver los desafíos más urgentes del mundo a través de la tecnología. Imaginamos un futuro donde cada estudiante, independientemente de su origen, tenga acceso a una educación de clase mundial y la oportunidad de impulsar avances tecnológicos que construyan un mañana mejor.",
+      "mission": "Nuestra Misión",
+      "mission_text": "El Instituto Tecnológico está comprometido con ofrecer una educación accesible y de alta calidad que equipe a los estudiantes con habilidades prácticas y demandadas. Cerramos la brecha entre la teoría y la práctica a través de cursos inmersivos, proyectos del mundo real y mentorías de expertos de la industria. Nuestra misión es democratizar la educación tecnológica, asegurando que todos tengan la oportunidad de triunfar en la era digital.",
+      "featured_courses": "Cursos Destacados",
+      "testimonials": "Lo que Dicen Nuestros Estudiantes",
+      "enroll_now": "Inscribirse Ahora",
+      "image_unavailable": "Imagen No Disponible"
+    }},
+    fr: { translation: {
+      "welcome": "Bienvenue à l'Institut Technologique",
+      "welcome_text": "À l'Institut Technologique, nous formons la prochaine génération d'innovateurs, de codeurs et de leaders technologiques. Nos programmes de pointe en programmation, science des données, cybersécurité, intelligence artificielle et informatique en nuage sont conçus pour transformer votre carrière. Grâce à un apprentissage pratique, des instructeurs experts et une communauté mondiale, nous fournissons les outils et les connaissances nécessaires pour prospérer dans l'industrie technologique en rapide évolution. Rejoignez-nous pour libérer votre potentiel et façonner l'avenir de la technologie.",
+      "vision": "Notre Vision",
+      "vision_text": "Être le leader mondial de l'éducation technologique transformatrice, en favorisant l'innovation et en permettant aux individus de résoudre les défis les plus pressants du monde grâce à la technologie. Nous envisageons un avenir où chaque apprenant, quel que soit son origine, a accès à une éducation de classe mondiale et à l'opportunité de mener des percées technologiques pour un avenir meilleur.",
+      "mission": "Notre Mission",
+      "mission_text": "L'Institut Technologique s'engage à offrir une éducation accessible et de haute qualité qui dote les apprenants de compétences pratiques et recherchées. Nous comblons l'écart entre la théorie et la pratique grâce à des cours immersifs, des projets concrets et un mentorat par des experts de l'industrie. Notre mission est de démocratiser l'éducation technologique, en s'assurant que chacun ait l'opportunité de réussir à l'ère numérique.",
+      "featured_courses": "Cours en Vedette",
+      "testimonials": "Ce que Disent Nos Étudiants",
+      "enroll_now": "S'inscrire Maintenant",
+      "image_unavailable": "Image Indisponible"
+    }}
+  },
+  lng: "en",
+  fallbackLng: "en",
+  interpolation: { escapeValue: false }
+});
+
+// Error Boundary
+const ErrorBoundary = ({ children }) => {
+  const [hasError, setHasError] = useState(false);
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    const errorHandler = (error) => {
+      console.error('ErrorBoundary caught:', error);
+      setHasError(true);
+    };
+    window.addEventListener('error', errorHandler);
+    return () => window.removeEventListener('error', errorHandler);
+  }, []);
+
+  if (hasError) {
+    return <div className="text-center p-6 text-red-600">{t('image_unavailable')}</div>;
+  }
+  return children;
+};
+
+// Header Component
+const Header = ({ toggleTheme }) => {
+  const { t, i18n } = useTranslation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const changeLanguage = (lng) => i18n.changeLanguage(lng);
+
+  return (
+    <header className="header sticky top-0 w-full bg-teal z-50">
+      <div className="container mx-auto px-6 flex justify-between items-center py-3">
+        <h1 className="text-2xl font-bold text-soft-white">Tech Institute</h1>
+        <nav className={`nav ${isMenuOpen ? 'open' : ''} flex gap-2 items-center`}>
+          <a href="index.html" className="nav-link">Home</a>
+          <a href="courses.html" className="nav-link">Courses</a>
+          <a href="enrollment.html" className="nav-link">Enrollment</a>
+          <a href="testimonials.html" className="nav-link">Testimonials</a>
+          <a href="vision.html" className="nav-link">Vision</a>
+          <a href="contact.html" className="nav-link">Contact</a>
+          <a href="about.html" className="nav-link">About</a>
+          <a href="dashboard.html" className="nav-link">Dashboard</a>
+        </nav>
+        <div className="flex items-center gap-3">
+          <select className="theme-select bg-teal text-soft-white rounded px-2 py-1" onChange={(e) => toggleTheme(e.target.value)} defaultValue={localStorage.getItem('theme') || 'light'} aria-label="Theme">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+          <select className="language-select bg-teal text-soft-white rounded px-2 py-1" onChange={(e) => changeLanguage(e.target.value)} defaultValue="en" aria-label="Language">
+            <option value="en">English</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+          </select>
+        </div>
+        <button className="hamburger md:hidden ml-3" onClick={toggleMenu} aria-label="Toggle menu">
+          <i className={isMenuOpen ? "fas fa-times text-soft-white" : "fas fa-bars text-soft-white"}></i>
+        </button>
+      </div>
+    </header>
+  );
+};
+
+// Footer Component
+const Footer = () => {
+  return (
+    <footer className="footer bg-teal text-soft-white z-50">
+      <div className="container mx-auto px-6 py-2 text-center">
+        <h3 className="text-2xl font-bold text-soft-white">Tech Institute</h3>
+        <p className="text-sm mt-2 text-soft-white">Tech Institute &copy; 2025</p>
+        <div className="flex justify-center gap-4 mt-2">
+          <a href="https://twitter.com" target="_blank" className="text-soft-white hover:text-orange"><i className="fab fa-twitter"></i></a>
+          <a href="https://linkedin.com" target="_blank" className="text-soft-white hover:text-orange"><i className="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+// Homepage Component
+const Home = () => {
+  const { t } = useTranslation();
+  const featuredCourses = [
+    { id: 1, title: "Web Development Bootcamp", description: "Learn HTML, CSS, JavaScript, and React." },
+    { id: 2, title: "Data Science Fundamentals", description: "Master Python, pandas, and ML basics." },
+    { id: 3, title: "Cybersecurity Essentials", description: "Understand network security and hacking." }
+  ];
+  const testimonials = [
+    { id: 1, name: "John Doe", text: "Tech Institute transformed my career with hands-on learning!" },
+    { id: 2, name: "Jane Smith", text: "The instructors are world-class, and the courses are practical." },
+    { id: 3, name: "Alex Johnson", text: "I landed my dream job in AI thanks to Tech Institute!" }
+  ];
+
+  return (
+    <main className="pt-10">
+      <section className="section bg-soft-white">
+        <div className="container mx-auto px-6 text-center">
+          <h2 className="text-2xl font-bold text-teal mb-4 animate-fade-in">{t('welcome')}</h2>
+          <p className="text-charcoal mb-6 animate-fade-in">{t('welcome_text')}</p>
+        </div>
+      </section>
+      <section className="section bg-soft-white">
+        <div className="container mx-auto px-6">
+          <h2 className="text-2xl font-bold text-teal mb-4 text-center">{t('vision')}</h2>
+          <p className="text-charcoal mb-6 text-center animate-fade-in">{t('vision_text')}</p>
+        </div>
+      </section>
+      <section className="section bg-soft-white">
+        <div className="container mx-auto px-6">
+          <h2 className="text-2xl font-bold text-teal mb-4 text-center">{t('mission')}</h2>
+          <p className="text-charcoal mb-6 text-center animate-fade-in">{t('mission_text')}</p>
+        </div>
+      </section>
+      <section className="section bg-soft-white">
+        <div className="container mx-auto px-6">
+          <h2 className="text-2xl font-bold text-teal mb-4 text-center">{t('featured_courses')}</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {featuredCourses.map(course => (
+              <div key={course.id} className="card bg-soft-white p-4 rounded-lg border border-teal shadow-md animate-fade-in">
+                <h3 className="text-lg font-bold text-teal">{course.title}</h3>
+                <p className="text-charcoal">{course.description}</p>
+                <a href="enrollment.html" className="button bg-orange text-soft-white mt-2" onClick={() => gtag('event', 'enroll_click', { event_category: 'Button', event_label: course.title })}>{t('enroll_now')}</a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="section bg-soft-white">
+        <div className="container mx-auto px-6">
+          <h2 className="text-2xl font-bold text-teal mb-4 text-center">{t('testimonials')}</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {testimonials.map(testimonial => (
+              <div key={testimonial.id} className="card bg-soft-white p-4 rounded-lg border border-teal shadow-md animate-fade-in">
+                <p className="text-charcoal">{testimonial.text}</p>
+                <p className="text-orange font-bold mt-2">{testimonial.name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+};
+
+// Main App Component
+const App = () => {
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+
+  useEffect(() => {
+    document.documentElement.classList.remove('theme-light', 'theme-dark');
+    document.documentElement.classList.add(`theme-${theme}`);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = (newTheme) => {
+    setTheme(newTheme);
+  };
+
+  return (
+    <ErrorBoundary>
+      <div className={`theme-${theme}`}>
+        <Header toggleTheme={toggleTheme} />
+        <Home />
+        <Footer />
+      </div>
+    </ErrorBoundary>
+  );
+};
+
+// Render the App
+ReactDOM.render(<App />, document.getElementById('root'));
+</script>
 </body>
 </html>

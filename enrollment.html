@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tech Institute - Enrollment</title>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.22.9/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/i18next@23.11.5/dist/umd/i18next.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-i18next@14.1.2/dist/umd/react-i18next.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect } = React;
+const { useTranslation, initReactI18next } = window.ReactI18next;
+
+// i18next Initialization
+i18next.use(initReactI18next).init({
+  resources: {
+    en: { translation: {
+      "enrollment": "Enrollment",
+      "name": "Name",
+      "email": "Email",
+      "course": "Course",
+      "date": "Preferred Start Date",
+      "submit": "Submit",
+      "form_success": "Enrollment request sent!",
+      "pay_now": "Pay Now",
+      "card_number": "Card Number",
+      "expiry": "Expiry Date",
+      "cvc": "CVC",
+      "payment_success": "Payment successful!",
+      "view_progress": "View Progress"
+    }},
+    es: { translation: {
+      "enrollment": "Inscripción",
+      "name": "Nombre",
+      "email": "Correo Electrónico",
+      "course": "Curso",
+      "date": "Fecha de Inicio Preferida",
+      "submit": "Enviar",
+      "form_success": "¡Solicitud de inscripción enviada!",
+      "pay_now": "Pagar Ahora",
+      "card_number": "Número de Tarjeta",
+      "expiry": "Fecha de Expiración",
+      "cvc": "CVC",
+      "payment_success": "¡Pago exitoso!",
+      "view_progress": "Ver Progreso"
+    }},
+    fr: { translation: {
+      "enrollment": "Inscription",
+      "name": "Nom",
+      "email": "Email",
+      "course": "Cours",
+      "date": "Date de Début Préférée",
+      "submit": "Envoyer",
+      "form_success": "Demande d'inscription envoyée !",
+      "pay_now": "Payer Maintenant",
+      "card_number": "Numéro de Carte",
+      "expiry": "Date d'Expiration",
+      "cvc": "CVC",
+      "payment_success": "Paiement réussi !",
+      "view_progress": "Voir le Progrès"
+    }}
+  },
+  lng: "en",
+  fallbackLng: "en",
+  interpolation: { escapeValue: false }
+});
+
+// Error Boundary
+const ErrorBoundary = ({ children }) => {
+  const [hasError, setHasError] = useState(false);
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    const errorHandler = (error) => {
+      console.error('ErrorBoundary caught:', error);
+      setHasError(true);
+    };
+    window.addEventListener('error', errorHandler);
+    return () => window.removeEventListener('error', errorHandler);
+  }, []);
+
+  if (hasError) {
+    return <div className="text-center p-6 text-red-600">{t('image_unavailable')}</div>;
+  }
+  return children;
+};
+
+// Header Component
+const Header = ({ toggleTheme }) => {
+  const { t, i18n } = useTranslation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const changeLanguage = (lng) => i18n.changeLanguage(lng);
+
+  return (
+    <header className="header sticky top-0 w-full bg-indigo z-50">
+      <div className="container mx-auto px-6 flex justify-between items-center py-3">
+        <h1 className="text-2xl font-bold text-white">Tech Institute</h1>
+        <nav className={`nav ${isMenuOpen ? 'open' : ''} flex gap-2 items-center`}>
+          <a href="index.html" className="nav-link">Home</a>
+          <a href="courses.html" className="nav-link">Courses</a>
+          <a href="enrollment.html" className="nav-link">Enrollment</a>
+          <a href="testimonials.html" className="nav-link">Testimonials</a>
+          <a href="vision.html" className="nav-link">Vision</a>
+          <a href="contact.html" className="nav-link">Contact</a>
+          <a href="about.html" className="nav-link">About</a>
+          <a href="dashboard.html" className="nav-link">Dashboard</a>
+        </nav>
+        <div className="flex items-center gap-3">
+          <select className="theme-select bg-indigo text-white rounded px-2 py-1" onChange={(e) => toggleTheme(e.target.value)} defaultValue="light" aria-label="Theme">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+          <select className="language-select bg-indigo text-white rounded px-2 py-1" onChange={(e) => changeLanguage(e.target.value)} defaultValue="en" aria-label="Language">
+            <option value="en">English</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+          </select>
+        </div>
+        <button className="hamburger md:hidden ml-3" onClick={toggleMenu} aria-label="Toggle menu">
+          <i className={isMenuOpen ? "fas fa-times text-white" : "fas fa-bars text-white"}></i>
+        </button>
+      </div>
+    </header>
+  );
+};
+
+// Footer Component
+const Footer = () => {
+  return (
+    <footer className="footer bg-indigo text-white z-50">
+      <div className="container mx-auto px-6 py-2 text-center">
+        <h3 className="text-2xl font-bold">Tech Institute</h3>
+        <p className="text-sm mt-2">Tech Institute &copy; 2025</p>
+        <div className="flex justify-center gap-4 mt-2">
+          <a href="https://twitter.com" target="_blank" className="text-white hover:text-coral"><i className="fab fa-twitter"></i></a>
+          <a href="https://linkedin.com" target="_blank" className="text-white hover:text-coral"><i className="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+// Enrollment Component
+const Enrollment = () => {
+  const { t } = useTranslation();
+  const [formData, setFormData] = useState({ name: '', email: '', course: '', date: '' });
+  const [paymentData, setPaymentData] = useState({ cardNumber: '', expiry: '', cvc: '' });
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showPaymentSuccess, setShowPaymentSuccess] = useState(false);
+  const [enrolledCourses, setEnrolledCourses] = useState(JSON.parse(localStorage.getItem('enrolledCourses')) || []);
+
+  const handleSubmit = () => {
+    if (formData.name && formData.email && formData.course && formData.date) {
+      gtag('event', 'enrollment_submit', { event_category: 'Form', event_label: 'Enrollment' });
+      setEnrolledCourses([...enrolledCourses, { ...formData, progress: 0 }]);
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 3000);
+      setFormData({ name: '', email: '', course: '', date: '' });
+    } else {
+      alert('Please fill all required fields');
+    }
+  };
+
+  const handlePayment = () => {
+    if (paymentData.cardNumber && paymentData.expiry && paymentData.cvc) {
+      gtag('event', 'payment_submit', { event_category: 'Form', event_label: 'Payment' });
+      setShowPaymentSuccess(true);
+      setTimeout(() => setShowPaymentSuccess(false), 3000);
+      setPaymentData({ cardNumber: '', expiry: '', cvc: '' });
+    } else {
+      alert('Please fill all payment fields');
+    }
+  };
+
+  useEffect(() => {
+    localStorage.setItem('enrolledCourses', JSON.stringify(enrolledCourses));
+  }, [enrolledCourses]);
+
+  return (
+    <main className="pt-20">
+      <section className="section bg-ivory">
+        <div className="container mx-auto px-6">
+          <h2 className="text-2xl font-bold text-indigo mb-4 text-center">{t('enrollment')}</h2>
+          <div className="card bg-white p-6 rounded-lg border border-indigo shadow-md animate-fade-in max-w-lg mx-auto">
+            {showSuccess && <p className="form-success text-coral">{t('form_success')}</p>}
+            <input
+              type="text"
+              placeholder={t('name')}
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              className="input"
+              aria-label={t('name')}
+            />
+            <input
+              type="email"
+              placeholder={t('email')}
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              className="input"
+              aria-label={t('email')}
+            />
+            <select
+              className="input"
+              value={formData.course}
+              onChange={(e) => setFormData({ ...formData, course: e.target.value })}
+              aria-label={t('course')}
+            >
+              <option value="" disabled>{t('course')}</option>
+              <option value="Web Development Bootcamp">Web Development Bootcamp</option>
+              <option value="Data Science Fundamentals">Data Science Fundamentals</option>
+              <option value="Cybersecurity Essentials">Cybersecurity Essentials</option>
+              <option value="AI and Machine Learning">AI and Machine Learning</option>
+              <option value="Cloud Computing">Cloud Computing</option>
+            </select>
+            <input
+              type="date"
+              placeholder={t('date')}
+              value={formData.date}
+              onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+              className="input"
+              aria-label={t('date')}
+            />
+            <button onClick={handleSubmit} className="button bg-coral text-white">{t('submit')}</button>
+            {enrolledCourses.length > 0 && (
+              <a href="dashboard.html" className="button bg-indigo text-white mt-4">{t('view_progress')}</a>
+            )}
+          </div>
+          <div className="card bg-white p-6 rounded-lg border border-indigo shadow-md animate-fade-in max-w-lg mx-auto mt-6">
+            <h3 className="text-lg font-bold text-indigo mb-4">{t('pay_now')}</h3>
+            {showPaymentSuccess && <p className="form-success text-coral">{t('payment_success')}</p>}
+            <input
+              type="text"
+              placeholder={t('card_number')}
+              value={paymentData.cardNumber}
+              onChange={(e) => setPaymentData({ ...paymentData, cardNumber: e.target.value })}
+              className="input"
+              aria-label={t('card_number')}
+            />
+            <input
+              type="text"
+              placeholder={t('expiry')}
+              value={paymentData.expiry}
+              onChange={(e) => setPaymentData({ ...paymentData, expiry: e.target.value })}
+              className="input"
+              aria-label={t('expiry')}
+            />
+            <input
+              type="text"
+              placeholder={t('cvc')}
+              value={paymentData.cvc}
+              onChange={(e) => setPaymentData({ ...paymentData, cvc: e.target.value })}
+              className="input"
+              aria-label={t('cvc')}
+            />
+            <button onClick={handlePayment} className="button bg-coral text-white">{t('pay_now')}</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+};
+
+// Main App Component
+const App = () => {
+  const [theme, setTheme] = useState('light');
+
+  const toggleTheme = (newTheme) => {
+    setTheme(newTheme);
+    document.documentElement.classList.remove('theme-light', 'theme-dark');
+    document.documentElement.classList.add(`theme-${newTheme}`);
+  };
+
+  return (
+    <ErrorBoundary>
+      <div className={`theme-${theme}`}>
+        <Header toggleTheme={toggleTheme} />
+        <Enrollment />
+        <Footer />
+      </div>
+    </ErrorBoundary>
+  );
+};
+
+// Render the App
+ReactDOM.render(<App />, document.getElementById('root'));
+</script>
+</body>
+</html>
