@@ -49,6 +49,10 @@ body {
   padding: 0.5rem 0;
 }
 
+.header h1 {
+  color: var(--soft-white);
+}
+
 .nav {
   display: flex;
   gap: 0.5rem;
