@@ -92,7 +92,6 @@ Notes
 
 API: courses.html uses https://jsonplaceholder.typicode.com/posts with static fallback. Share Console logs for API debugging.
 Updates: Apply theme persistence and color fixes to remaining pages (see vision.html for App, Header, Footer template).
-Last Updated: September 28, 2025, 7:21 PM WAT.
 
 Live Demo
 https://nchiwar.github.io/techinstitute/
