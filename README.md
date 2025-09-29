@@ -1,4 +1,5 @@
 Tech Institute Website
+
 Overview
 The Tech Institute website is a modern, responsive web application built with React, Tailwind CSS, and i18next for multilingual support. It provides information about tech education programs, including courses, vision, mission, enrollment, testimonials, and contact pages. The site features a consistent design with theme persistence (light/dark modes), accessibility, and mock analytics.
 Features
@@ -94,3 +95,4 @@ Updates: Apply theme persistence and color fixes to remaining pages (see vision.
 Last Updated: September 28, 2025, 7:21 PM WAT.
 
 Live Demo
+https://nchiwar.github.io/techinstitute/
