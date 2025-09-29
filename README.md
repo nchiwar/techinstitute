@@ -96,3 +96,4 @@ Last Updated: September 28, 2025, 7:21 PM WAT.
 
 Live Demo
 https://nchiwar.github.io/techinstitute/
+https://ascendia-tech.lovable.app/
